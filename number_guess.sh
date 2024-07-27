@@ -20,7 +20,9 @@ done <<< "$USERNAME_HISTORY"
 
 if [[ $NAME_FOUND == true ]]
   then
-  echo name found
+  GAMES_COUNT=$($PSQL "SELECT COUNT (player_id) FROM games WHERE name = '$USERNAME'")
+  BEST_GAME=$($PSQL "SELECT MIN (guess_number) FROM games WHERE name = '$USERNAME'")
+  echo "Welcome back, $USERNAME! You have played $GAMES_COUNT games, and your best game took $BEST_GAME guesses."
 else
   echo "Welcome, $USERNAME! It looks like this is your first time here."
   $PSQL "INSERT INTO players (name) VALUES ('$USERNAME')" 
@@ -50,7 +52,8 @@ COUNT=$(($COUNT + 1))
 done
 
 echo "You guessed it in $COUNT tries. The secret number was $GUESS_NUMBER. Nice job!"
-
+PLAYER_ID=$($PSQL "SELECT player_id FROM players WHERE name = '$USERNAME'")
+$PSQL "INSERT INTO games (player_id, guess_number, name) VALUES ($PLAYER_ID, $COUNT, '$USERNAME')"
 #total number of games user played
 
 #best game guess
