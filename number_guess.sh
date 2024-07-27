@@ -25,11 +25,10 @@ if [[ $NAME_FOUND == true ]]
   echo "Welcome back, $USERNAME! You have played $GAMES_COUNT games, and your best game took $BEST_GAME guesses."
 else
   echo "Welcome, $USERNAME! It looks like this is your first time here."
-  $PSQL "INSERT INTO players (name) VALUES ('$USERNAME')" 
+  $PSQL "INSERT INTO players (name) VALUES ('$USERNAME')" 1> stdout.txt
 fi
 
 GUESS_NUMBER=$(($RANDOM%1000+1))
-echo $GUESS_NUMBER
 echo "Guess the secret number between 1 and 1000:"
 read NUMBER
 COUNT=1
@@ -51,11 +50,6 @@ do
 COUNT=$(($COUNT + 1))
 done
 
-echo "You guessed it in $COUNT tries. The secret number was $GUESS_NUMBER. Nice job!"
 PLAYER_ID=$($PSQL "SELECT player_id FROM players WHERE name = '$USERNAME'")
-$PSQL "INSERT INTO games (player_id, guess_number, name) VALUES ($PLAYER_ID, $COUNT, '$USERNAME')"
-#total number of games user played
-
-#best game guess
-
-#generate secret number
+$PSQL "INSERT INTO games (player_id, guess_number, name) VALUES ($PLAYER_ID, $COUNT, '$USERNAME')"  1> stdout.txt
+echo "You guessed it in $COUNT tries. The secret number was $GUESS_NUMBER. Nice job!"
