@@ -30,20 +30,22 @@ GUESS_NUMBER=$(($RANDOM%1000+1))
 echo $GUESS_NUMBER
 echo "Guess the secret number between 1 and 1000:"
 read NUMBER
+COUNT=1
+while [ $NUMBER != $GUESS_NUMBER ]
+do
+  if [[ $NUMBER -lt $GUESS_NUMBER ]]
+    then
+    echo "It's lower than that, guess again:"
+    read NUMBER
+  elif [[ $NUMBER -gt $GUESS_NUMBER ]]
+    then
+    echo "It's higher than that, guess again:"
+    read NUMBER
+  fi  
+COUNT=$(($COUNT + 1))
+done
 
-if [[ $NUMBER == $GUESS_NUMBER ]]
-  then
-  echo you are right
-elif [[ $NUMBER -lt $GUESS_NUMBER ]]
-  then
-  echo less than
-elif [[ $NUMBER -gt $GUESS_NUMBER ]]
-  then
-  echo greater than
-fi
-
-
-
+echo "you are right $COUNT"
 
 #total number of games user played
 
