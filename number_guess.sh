@@ -49,7 +49,7 @@ do
 COUNT=$(($COUNT + 1))
 done
 
-echo "you are right $COUNT"
+echo "You guessed it in $COUNT tries. The secret number was $GUESS_NUMBER. Nice job!"
 
 #total number of games user played
 
