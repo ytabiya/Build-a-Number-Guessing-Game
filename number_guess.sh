@@ -33,7 +33,11 @@ read NUMBER
 COUNT=1
 while [ $NUMBER != $GUESS_NUMBER ]
 do
-  if [[ $NUMBER -lt $GUESS_NUMBER ]]
+  if [[ ! $NUMBER =~ ^([0-9]+)*$ ]]
+    then
+    echo "That is not an integer, guess again:"
+    read NUMBER
+  elif [[ $NUMBER -lt $GUESS_NUMBER ]]
     then
     echo "It's lower than that, guess again:"
     read NUMBER
