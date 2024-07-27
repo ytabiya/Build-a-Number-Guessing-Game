@@ -7,6 +7,8 @@ read USERNAME
 USERNAME_HISTORY=$($PSQL "SELECT name FROM players")
 NAME_FOUND=false
 
+#check if username has been checked before
+
 while read NAME
 do
   if [[ "$USERNAME" == "$NAME" ]]
@@ -24,12 +26,24 @@ else
   $PSQL "INSERT INTO players (name) VALUES ('$USERNAME')" 
 fi
 
+GUESS_NUMBER=$(($RANDOM%1000+1))
+echo $GUESS_NUMBER
+echo "Guess the secret number between 1 and 1000:"
+read NUMBER
 
-#check if username has been checked before
+if [[ $NUMBER == $GUESS_NUMBER ]]
+  then
+  echo you are right
+elif [[ $NUMBER -lt $GUESS_NUMBER ]]
+  then
+  echo less than
+elif [[ $NUMBER -gt $GUESS_NUMBER ]]
+  then
+  echo greater than
+fi
 
-#if yes print echo
 
-#otherwsie
+
 
 #total number of games user played
 
